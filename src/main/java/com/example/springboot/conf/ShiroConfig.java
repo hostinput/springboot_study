@@ -23,6 +23,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/view/index"); //  登录成功后要跳转的链接
         //  shiroFilterFactoryBean.setUnauthorizedUrl("/jsp/nouth");//未授权界面;
         Map<String, String> filterMap = new HashMap<String, String>();
+        filterMap.put("/user/register", "anon");//注册不拦截
         filterMap.put("/css/**", "anon");
         filterMap.put("/img/**", "anon");
         filterMap.put("/js/**", "anon");

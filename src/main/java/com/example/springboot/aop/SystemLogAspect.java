@@ -1,5 +1,7 @@
 package com.example.springboot.aop;
 
+import com.example.springboot.system.entity.OperationalLog;
+import com.example.springboot.system.service.IOperationalLogService;
 import com.google.gson.Gson;
 import org.apache.catalina.security.SecurityUtil;
 import org.aspectj.lang.JoinPoint;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -20,12 +23,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 
 @Component
 @Aspect
 public class SystemLogAspect {
     private final static Logger logger = LoggerFactory.getLogger(SystemLogAspect.class);
+    @Autowired
+    IOperationalLogService operationalLogServiceImpl;
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
     /***
      * 定义controller切入点拦截规则，拦截SysLog注解的方法
      */
@@ -41,8 +50,8 @@ public class SystemLogAspect {
      * @throws Throwable
      */
     @Before(value = "sysLogAspect()")
-    public void recordLog(JoinPoint joinPoint) throws Throwable {
-        try{
+    public void recordLog(JoinPoint joinPoint)  {
+        try {
             //1.获取到所有的参数值的数组
             Object[] args = joinPoint.getArgs();
             Signature signature = joinPoint.getSignature();
@@ -51,18 +60,29 @@ public class SystemLogAspect {
             String[] parameterNames = methodSignature.getParameterNames();
             Method method = methodSignature.getMethod();
             System.out.println("---------------参数列表开始-------------------------");
-            for (int i =0 ,len=parameterNames.length;i < len ;i++){
-                System.out.println("参数名："+ parameterNames[i] + " = " +args[i]);
+            String params = "";
+            for (int i = 0, len = parameterNames.length; i < len; i++) {
+                System.out.println("参数名：" + parameterNames[i] + " = " + args[i]);
+                params += parameterNames[i] + " = " + args[i];
             }
             // 3.获取当前请求的httpRequest，可获取session与其他参数
-            HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            HttpSession session =request.getSession();
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            HttpSession session = request.getSession();
             System.out.println("---------------参数列表结束-------------------------");
-            SystemLog redis=(SystemLog)method.getAnnotation(SystemLog.class);
-            System.out.println("自定义注解 operationName:" + redis.operationName());
-            System.out.println("自定义注解 operationType:" + redis.operationType());
+            SystemLog systemLog = (SystemLog) method.getAnnotation(SystemLog.class);
+            System.out.println("自定义注解 operationName:" + systemLog.operationName());
+            System.out.println("自定义注解 operationType:" + systemLog.operationType());
             //保存数据库
-        }catch (Exception e){
+            OperationalLog log = new OperationalLog();
+            log.setDescripe(systemLog.operationName());
+            log.setType(systemLog.operationType().getValue());
+            log.setParams(params);//传入参数
+            log.setUsername("徐波");
+            log.setUserId((int) (System.currentTimeMillis()/10000));
+            log.setUrl(request.getRequestURI());
+            log.setCreateTime(new Date());
+            operationalLogServiceImpl.insert(log);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -93,6 +113,7 @@ public class SystemLogAspect {
 
     /**
      * 返回通知
+     *
      * @param ret
      * @throws Throwable
      */
@@ -113,10 +134,11 @@ public class SystemLogAspect {
 
     /**
      * 异常通知
+     *
      * @param e
      */
-    @AfterThrowing(pointcut = "sysLogAspect()",throwing = "e")
-    public void doAfterThrowable(Throwable e){
+    @AfterThrowing(pointcut = "sysLogAspect()", throwing = "e")
+    public void doAfterThrowable(Throwable e) {
         // 异常
         /*sysLog.setType(2);
         // 异常对象

@@ -3,7 +3,7 @@ package com.example.springboot.controller;
 import com.example.springboot.aop.OperationType;
 import com.example.springboot.aop.SystemLog;
 import com.example.springboot.entity.BaseResult;
-import com.example.springboot.model.User;
+import com.example.springboot.system.entity.User;
 import com.example.springboot.utils.ResultUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

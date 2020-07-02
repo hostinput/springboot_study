@@ -7,8 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 /**
-* mybatis分页插件
+* mybatis分页插件(pagerhepler配合mybatis使用)
 * */
+@Deprecated
 @Configuration
 public class PagerHelper {
     @Bean

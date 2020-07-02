@@ -2,10 +2,8 @@ package com.example.springboot.controller;
 
 import com.example.springboot.aop.OperationType;
 import com.example.springboot.aop.SystemLog;
-import com.example.springboot.constants.Code;
 import com.example.springboot.entity.BaseResult;
-import com.example.springboot.model.User;
-import com.example.springboot.service.user.UserService;
+import com.example.springboot.system.service.IUserService;
 import com.example.springboot.utils.ResultUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
@@ -18,13 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/view")
 public class ViewController {
     @Autowired
-    UserService userService;
+    IUserService userService;
     @SystemLog(operationType = OperationType.SELECT, operationName = "hello spring boot")
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @RequiresPermissions("view:del")
@@ -95,7 +91,7 @@ public class ViewController {
     @RequestMapping("/listusers")
     @ResponseBody
     public BaseResult getAllUser(){
-        PageInfo userInfo = userService.getAllUsers();
+        PageInfo userInfo =null;//userService.getAllUsers();
        // System.out.println("users.size"+users.size());
         return  ResultUtil.ok(userInfo);
     }

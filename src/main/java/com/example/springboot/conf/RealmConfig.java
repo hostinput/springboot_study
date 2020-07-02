@@ -1,9 +1,10 @@
 package com.example.springboot.conf;
 
-import com.example.springboot.model.Permission;
-import com.example.springboot.model.Role;
-import com.example.springboot.model.User;
-import com.example.springboot.service.user.UserService;
+import com.baomidou.mybatisplus.mapper.Condition;
+import com.example.springboot.system.entity.Permission;
+import com.example.springboot.system.entity.Role;
+import com.example.springboot.system.entity.User;
+import com.example.springboot.system.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 public class RealmConfig extends AuthorizingRealm {
     @Autowired
-    UserService userService;
+    IUserService userServiceImpl;
 
     /**
      * 用户验证
@@ -27,7 +28,7 @@ public class RealmConfig extends AuthorizingRealm {
         UsernamePasswordToken upt = (UsernamePasswordToken) token;
         String username = upt.getUsername();//是否是一样得效果待定：String userName = (String)token.getPrincipal();
         System.out.println("username" + username);
-        User usertoken = userService.getUserByLoginName(username);
+        User usertoken = userServiceImpl.selectOne(new Condition().eq("username",username));
         if (usertoken == null) {
             throw new UnknownAccountException();
         }
@@ -50,14 +51,14 @@ public class RealmConfig extends AuthorizingRealm {
         //获取认证时候添加到SimpleAuthenticationInfo中的实例
         User user = (User) principals.getPrimaryPrincipal();
         System.out.println(user.getId() + "认证成功进行授权中...");
-        List<Role> roleList = userService.getRoleListByUserId(user.getId());//角色集合
+        List<Role> roleList = userServiceImpl.getRoleListByUserId(user.getId());//角色集合
         Set<String> roles = new HashSet<>(roleList.size());
         for (Role role : roleList) {
             String roleName = role.getName();
             System.out.println("role" + roleName);
             roles.add(roleName);
         }
-        List<Permission> permissionList = userService.getPermissionListByRoleId(user.getId());//角色集合
+        List<Permission> permissionList = userServiceImpl.getPermissionListByRoleId(user.getId());//角色集合
         Set<String> permissions = new HashSet<>(permissionList.size());
         for (Permission permission : permissionList) {
             String permissionName = permission.getName();

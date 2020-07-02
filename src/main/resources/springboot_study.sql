@@ -10,7 +10,7 @@ CREATE TABLE `user` (
                       `salt` varchar(128) DEFAULT NULL COMMENT '加密盐值',
                       `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
                       `phone` varchar(50) DEFAULT NULL COMMENT '联系方式',
-                      `sex` int(255) DEFAULT NULL COMMENT '年龄：1男2女',
+                      `sex` int(1) DEFAULT NULL COMMENT '性别：1男2女',
                       `age` int(3) DEFAULT NULL COMMENT '年龄',
                       `status` int(1) NOT NULL COMMENT '用户状态：1有效; 2删除',
                       `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -72,5 +72,20 @@ CREATE TABLE `user_role` (
                            `id` int(11) NOT NULL AUTO_INCREMENT,
                            `user_id` varchar(20) NOT NULL COMMENT '用户id',
                            `role_id` varchar(20) NOT NULL COMMENT '角色id',
+                           PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Table structure for operational_log
+-- ----------------------------
+DROP TABLE IF EXISTS `operational_log`;
+CREATE TABLE `operational_log` (
+                           `id` int(11) NOT NULL AUTO_INCREMENT,
+                           `type` varchar(20) NOT NULL COMMENT '操作类型',
+                           `descripe` varchar(255) COMMENT '详细描述',
+                           `user_id` int(11) NOT NULL COMMENT '操作人Id',
+                           `username`varchar(50) NOT NULL COMMENT '操作人名字',
+                           `params`varchar(50)  COMMENT '传入参数',
+                           `url`varchar(50) NOT NULL COMMENT '访问路径',
+                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
