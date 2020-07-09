@@ -5,16 +5,16 @@
     <title>用户修改</title>
 </head>
 <body>
-<form th:action="@{/user/updata}" method="get">
+<form  align="center" th:action="@{/user/updata}" method="get">
     <label>用户：<input type="text" name="userName" th:value="${user.username}"></label><br/>
     <label>年龄：<input type="number" name="age" th:value="${user.age}"></label><br/>
+    <label>邮箱：<input type="email" name="email" th:value="${user.email}"></label><br/>
+    <label>手机：<input type="text" name="phone" th:value="${user.phone}"></label><br/>
+    <label th:hidden="true"><input type="text" name="userId" th:value="${user.id}"></label><br/>
     <label>性别：
         男：<input th:checked="${user.sex==1}"   type="radio" name="sex"  th:value="1">
         女：<input th:checked="${user.sex==2}"  type="radio" name="sex" th:value="2">
     </label><br/>
-    <label>邮箱：<input type="email" name="email" th:value="${user.email}"></label><br/>
-    <label>手机：<input type="text" name="phone" th:value="${user.phone}"></label><br/>
-    <label th:hidden="true"><input type="text" name="userId" th:value="${user.id}"></label><br/>
     <label th:if="${ not #strings.isEmpty(error)}" style="color: red">
         错误信息：<span type="text" th:text="${error}"/></label><br/>
     <input type="submit" value="修改">
