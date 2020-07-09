@@ -7,7 +7,6 @@
     <select id="selectRoleListByUserId" resultType="com.example.springboot.system.entity.Role" parameterType="long">
         SELECT
             r.id,
-            r.role_id,
             r.name,
             r.description,
             r.status,

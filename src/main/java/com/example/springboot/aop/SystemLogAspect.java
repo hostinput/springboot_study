@@ -1,30 +1,21 @@
 package com.example.springboot.aop;
 
-import com.example.springboot.system.entity.OperationalLog;
 import com.example.springboot.system.service.IOperationalLogService;
-import com.google.gson.Gson;
-import org.apache.catalina.security.SecurityUtil;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import sun.plugin.liveconnect.SecurityContextHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
-import java.time.Instant;
-import java.util.Date;
-import java.util.Objects;
 
 @Component
 @Aspect
@@ -73,7 +64,7 @@ public class SystemLogAspect {
             System.out.println("自定义注解 operationName:" + systemLog.operationName());
             System.out.println("自定义注解 operationType:" + systemLog.operationType());
             //保存数据库
-            OperationalLog log = new OperationalLog();
+           /* OperationalLog log = new OperationalLog();
             log.setDescripe(systemLog.operationName());
             log.setType(systemLog.operationType().getValue());
             log.setParams(params);//传入参数
@@ -81,7 +72,7 @@ public class SystemLogAspect {
             log.setUserId((int) (System.currentTimeMillis()/10000));
             log.setUrl(request.getRequestURI());
             log.setCreateTime(new Date());
-            operationalLogServiceImpl.insert(log);
+            operationalLogServiceImpl.insert(log);*/
         } catch (Exception e) {
             e.printStackTrace();
         }

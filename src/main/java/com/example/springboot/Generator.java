@@ -125,7 +125,7 @@ public class Generator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //自定义继承的Entity类全称，带包名
 //        strategy.setSuperEntityClass("***");
-       // strategy.setEntityLombokModel(true);
+        strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         //自定义继承的Controller类全称，带包名
 //        strategy.setSuperControllerClass("***");

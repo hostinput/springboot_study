@@ -3,10 +3,9 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-                      `id` int(11) NOT NULL AUTO_INCREMENT,
-                      `user_id` varchar(20) NOT NULL COMMENT '用户id',
+                      `id` int(11) NOT NULL AUTO_INCREMENT  COMMENT '用户id' ,
                       `username` varchar(50) NOT NULL COMMENT '用户名',
-                      `password` varchar(50) NOT NULL,
+                      `password` varchar(50) NOT NULL COMMENT '密码',
                       `salt` varchar(128) DEFAULT NULL COMMENT '加密盐值',
                       `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
                       `phone` varchar(50) DEFAULT NULL COMMENT '联系方式',
@@ -16,7 +15,7 @@ CREATE TABLE `user` (
                       `create_time` datetime DEFAULT NULL COMMENT '创建时间',
                       `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                       `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
-                      PRIMARY KEY (`id`,`user_id`),
+                      PRIMARY KEY (`id`),
                       UNIQUE KEY `a` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
@@ -25,8 +24,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
-                      `id` int(11) NOT NULL AUTO_INCREMENT,
-                      `role_id` varchar(20) NOT NULL COMMENT '角色id',
+                      `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色id',
                       `name` varchar(50) NOT NULL COMMENT '角色名称',
                       `description` varchar(255) DEFAULT NULL COMMENT '角色描述',
                       `status` int(1) NOT NULL COMMENT '状态：1有效；2删除',
@@ -39,8 +37,7 @@ CREATE TABLE `role` (
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
-                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                            `permission_id` varchar(20) NOT NULL COMMENT '权限id',
+                            `id` int(11) NOT NULL AUTO_INCREMENT COMMENT  '权限id',
                             `name` varchar(100) NOT NULL COMMENT '权限名称',
                             `description` varchar(255) DEFAULT NULL COMMENT '权限描述',
                             `url` varchar(255) DEFAULT NULL COMMENT '权限访问路径',
@@ -81,10 +78,10 @@ DROP TABLE IF EXISTS `operational_log`;
 CREATE TABLE `operational_log` (
                            `id` int(11) NOT NULL AUTO_INCREMENT,
                            `type` varchar(20) NOT NULL COMMENT '操作类型',
-                           `descripe` varchar(255) COMMENT '详细描述',
+                           `descripe` varchar(255) DEFAULT  NULL COMMENT '详细描述',
                            `user_id` int(11) NOT NULL COMMENT '操作人Id',
                            `username`varchar(50) NOT NULL COMMENT '操作人名字',
-                           `params`varchar(50)  COMMENT '传入参数',
+                           `params`varchar(50) DEFAULT  NULL  COMMENT '传入参数',
                            `url`varchar(50) NOT NULL COMMENT '访问路径',
                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
                            PRIMARY KEY (`id`)

@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/view")
 public class ViewController {
-    @Autowired
+   /* @Autowired
     IUserService userService;
     @SystemLog(operationType = OperationType.SELECT, operationName = "hello spring boot")
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
@@ -32,11 +32,11 @@ public class ViewController {
         return "hello";
     }
 
-    @RequestMapping("/login")
+  *//*  @RequestMapping("/login")
     public String login(Model model, @ModelAttribute("msg") String msg) {//重定向接受参数
         model.addAttribute(msg);
         return "login";
-    }
+    }*//*
 
     @RequestMapping("/userlogin")
     public String userLogin(@RequestParam("username") String username, @RequestParam("password") String pwd, RedirectAttributes attributes) {
@@ -70,29 +70,29 @@ public class ViewController {
         }
         return "redirect:/view/index";
     }
-    /**
+    *//**
      * 登录成功后跳转界面
-     * */
+     * *//*
     @RequestMapping("/index")
     @RequiresPermissions(value = "view:add")
     public String index() {
         return "index";
     }
-    /**
+    *//**
      * 未授权跳转界面
-     * */
+     * *//*
     @RequestMapping("/noAuth")
     public String noAuth(){
         return "noauth";
     }
-    /**
+    *//**
     * 展示所有users
-    * */
+    * *//*
     @RequestMapping("/listusers")
     @ResponseBody
     public BaseResult getAllUser(){
         PageInfo userInfo =null;//userService.getAllUsers();
        // System.out.println("users.size"+users.size());
         return  ResultUtil.ok(userInfo);
-    }
+    }*/
 }

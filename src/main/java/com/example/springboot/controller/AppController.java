@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppController {
     // @Autowired
     //FirstService firstServiceImpl;
+/*
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public BaseResult index() throws Exception {
         int x = 1 / 0;
@@ -52,6 +53,7 @@ public class AppController {
         return ResultUtil.ok("success");
 
     }
+*/
 
 
 }

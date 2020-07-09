@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+</head>
+<body>
+<table  border="1" cellspacing="0" align="center">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>用户名</th>
+        <th>邮箱</th>
+        <th>电话</th>
+        <th>性别</th>
+        <th>年龄</th>
+        <th>时间</th>
+        <th>操作</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user,status:${userList}" th:id="${user.id}" th:object="${user}">
+        <td th:text="${status.count}"></td>
+        <td th:text="*{username}"></td>
+        <td th:text="*{email}"></td>
+        <td th:text="*{phone}"></td>
+        <td th:text="*{sex}==1?'男':'女'"></td>
+        <td th:text="*{age}"></td>
+        <td th:text="*{#dates.format(createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td><a th:href="@{'/user/toUpdata/'+*{id}}">修改</a>&nbsp;&nbsp;&nbsp;<a th:href="@{'/user/changeStatus/2/'+*{id}}">禁用</a>&nbsp;&nbsp;&nbsp;<a th:href="@{'/user/changeStatus/1/'+${user.id}}">启用</a></td>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+</html>

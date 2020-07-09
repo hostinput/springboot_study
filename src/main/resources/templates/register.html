@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+
+</head>
+<body>
+<form th:action="@{register}" method="post">
+    <label>用户：<input type="text" name="userName" value=""></label><br/>
+    <label>密码：<input type="password" name="pwd" value=""></label><br/>
+    <label>年龄：<input type="number" name="age" value=""></label><br/>
+    <label>性别：
+        男：<input   type="radio" name="sex"  th:value="1">
+        女：<input  type="radio" name="sex" th:value="2">
+    </label><br/>
+    <label>邮箱：<input type="email" name="email" value=""></label><br/>
+    <label>手机：<input type="text" name="phone" value=""></label><br/>
+    <label th:if="${ not #strings.isEmpty(error)}" style="color: red">
+        错误信息：<span type="text" th:text="${error}"/></label><br/>
+    <input type="submit" value="注册">
+</form>
+</body>
+</html>

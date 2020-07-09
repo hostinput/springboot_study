@@ -19,11 +19,13 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shirFilter(@Qualifier("securityManager") DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);        //设置安全管理器
-        shiroFilterFactoryBean.setLoginUrl("/view/login");// 	如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setSuccessUrl("/view/index"); //  登录成功后要跳转的链接
+
         //  shiroFilterFactoryBean.setUnauthorizedUrl("/jsp/nouth");//未授权界面;
         Map<String, String> filterMap = new HashMap<String, String>();
         filterMap.put("/user/register", "anon");//注册不拦截
+        filterMap.put("/user/toRegister", "anon");//注册不拦截
+        filterMap.put("/user/toLogin", "anon");//注册不拦截
+        filterMap.put("/user/login", "anon");//注册不拦截
         filterMap.put("/css/**", "anon");
         filterMap.put("/img/**", "anon");
         filterMap.put("/js/**", "anon");
@@ -32,6 +34,8 @@ public class ShiroConfig {
         filterMap.put("/view/userlogin", "anon");
         filterMap.put("/logout", "logout");//配置退出 过滤器,其中的具体的退出代码Shiro已经实现
         filterMap.put("/**", "authc");//过滤链定义，从上向下顺序执行，一般将/**放在最为下边
+        shiroFilterFactoryBean.setLoginUrl("/user/toLogin");// 	如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
+        shiroFilterFactoryBean.setSuccessUrl("/user/toIndex"); //  登录成功后要跳转的链接
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
 
