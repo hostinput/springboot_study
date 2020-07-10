@@ -8,6 +8,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +21,8 @@ public class GloableExcepiton extends RuntimeException {
     public static final String ERROR_VIEW = "my_error";
 
     @ExceptionHandler(Exception.class)
-    public Object errorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
-             e.printStackTrace();
+    public Object errorHandler(HttpServletRequest request, HttpServletResponse response, RedirectAttributes attributes, Exception e) {
+        e.printStackTrace();
         if (isAjax(request)) {//是ajax请求
             if (e instanceof UnauthorizedException) {//无权限异常捕获，跳转到无权限页面
                 return ResultUtil.error(null, "无权限", Code.ERROR);
@@ -29,17 +30,15 @@ public class GloableExcepiton extends RuntimeException {
                 return ResultUtil.error(null, e.getMessage(), Code.ERROR);
             }
         } else {//不是ajax请求,跳转页面
-            ModelAndView modelAndView = new ModelAndView();
             if (e instanceof UnauthorizedException) {//无权限异常捕获，跳转到无权限页面
-                modelAndView.setViewName("noauth");
-            } else {
-                ModelAndView mv = new ModelAndView();
-                mv.addObject("exception", e);
-                mv.addObject("url", request.getRequestURL());//发生异常的路径
-                mv.setViewName(ERROR_VIEW);//指定发生异常之后跳转页面
+                return "redirect:/user/toNouth";
+            } else {//其他错误，跳转到错误页面
+                attributes.addFlashAttribute("exception", e);
+                attributes.addFlashAttribute("url", request.getRequestURL());
+                return "redirect:/user/toError";
             }
-            return modelAndView;
         }
+
 
     }
 

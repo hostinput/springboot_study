@@ -5,17 +5,20 @@
 <mapper namespace="com.example.springboot.system.mapper.UserMapper">
 
     <select id="selectRoleListByUserId" resultType="com.example.springboot.system.entity.Role" parameterType="long">
+/*
+id, name, description, status, create_time, update_time
+*/
         SELECT
-            r.id,
-            r.name,
-            r.description,
-            r.status,
-            r.create_time,
-            r.update_time
+            r.id as id,
+            r.name as name,
+            r.description asdescription ,
+            r.status as status ,
+            r.create_time as createTime,
+            r.update_time as updateTime
         FROM
             USER AS u
-                LEFT JOIN user_role as ur ON u.id = ur.user_id
-                LEFT JOIN role AS r ON ur.role_id = r.id
+                inner JOIN user_role as ur ON u.id = ur.user_id
+                inner JOIN role AS r ON ur.role_id = r.id
         WHERE u.id = #{id}
     </select>
 
@@ -28,7 +31,6 @@
             p.create_time,
             p.order_num,
             p.parent_id,
-            p.permission_id,
             p.url,
             p.perms,
             p.STATUS,
@@ -36,10 +38,10 @@
             p.update_time
         FROM
             USER AS u
-                LEFT JOIN user_role AS ur ON u.id = ur.user_id
-                LEFT JOIN role AS r ON ur.role_id = r.id
-                LEFT JOIN role_permission AS rp ON rp.role_id = r.id
-                LEFT JOIN permission AS p ON p.id = rp.permission_id
+                inner JOIN user_role AS ur ON u.id = ur.user_id
+                inner JOIN role AS r ON ur.role_id = r.id
+                inner JOIN role_permission AS rp ON rp.role_id = r.id
+                inner JOIN permission AS p ON p.id = rp.permission_id
         WHERE
             u.id = #{id}
     </select>

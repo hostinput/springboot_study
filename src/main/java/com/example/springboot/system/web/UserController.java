@@ -13,6 +13,7 @@ import com.example.springboot.system.service.IUserService;
 import com.example.springboot.utils.ResultUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -62,6 +63,14 @@ public class UserController {
         model.addAttribute("userList", userList);
         return "index";
     }
+    @RequestMapping("/toNouth")
+    public String toNouth(Model model) {
+        return "noauth";
+    }
+    @RequestMapping("/toError")
+    public String toError(Model model) {
+        return "my_error";
+    }
 
     @RequestMapping("/toUpdata/{userId}")
     public String toUpdata(Model model, @PathVariable Integer userId) {
@@ -74,6 +83,8 @@ public class UserController {
      * 修改用户信息
      */
     @RequestMapping("/updata")
+    @SystemLog(operationType = OperationType.UPDATE, operationName = "修改用户信息")
+    @RequiresPermissions("user:updata")
     public String updata(RedirectAttributes attributes, String userName, Integer age, String email, String phone, Integer sex, Integer userId) {
         try {
             User user = userServiceImpl.selectById(userId);
@@ -106,6 +117,7 @@ public class UserController {
      * 禁用或者启用用户
      */
     @RequestMapping("/changeStatus/{status}/{userId}")
+    @SystemLog(operationType = OperationType.UPDATE, operationName = "修改用户状态")
     public String changeStatus(@PathVariable Integer userId, @PathVariable Integer status) {
         User user = userServiceImpl.selectById(userId);
         if (user != null) {

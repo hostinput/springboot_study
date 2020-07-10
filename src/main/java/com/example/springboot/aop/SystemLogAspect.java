@@ -1,6 +1,10 @@
 package com.example.springboot.aop;
 
+import com.example.springboot.system.entity.OperationalLog;
+import com.example.springboot.system.entity.SystemLogEvent;
+import com.example.springboot.system.entity.User;
 import com.example.springboot.system.service.IOperationalLogService;
+import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
@@ -16,13 +20,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 @Component
 @Aspect
 public class SystemLogAspect {
     private final static Logger logger = LoggerFactory.getLogger(SystemLogAspect.class);
-    @Autowired
-    IOperationalLogService operationalLogServiceImpl;
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -59,20 +62,22 @@ public class SystemLogAspect {
             // 3.获取当前请求的httpRequest，可获取session与其他参数
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             HttpSession session = request.getSession();
+            User user = (User) SecurityUtils.getSubject().getPrincipal();
             System.out.println("---------------参数列表结束-------------------------");
             SystemLog systemLog = (SystemLog) method.getAnnotation(SystemLog.class);
             System.out.println("自定义注解 operationName:" + systemLog.operationName());
             System.out.println("自定义注解 operationType:" + systemLog.operationType());
             //保存数据库
-           /* OperationalLog log = new OperationalLog();
+            OperationalLog log = new OperationalLog();
             log.setDescripe(systemLog.operationName());
             log.setType(systemLog.operationType().getValue());
+            System.out.println();
             log.setParams(params);//传入参数
-            log.setUsername("徐波");
-            log.setUserId((int) (System.currentTimeMillis()/10000));
+            log.setUsername(user.getUsername());
+            log.setUserId((user.getId()));
             log.setUrl(request.getRequestURI());
             log.setCreateTime(new Date());
-            operationalLogServiceImpl.insert(log);*/
+            this.applicationEventPublisher.publishEvent(new SystemLogEvent(log));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,6 +115,7 @@ public class SystemLogAspect {
      */
     @AfterReturning(returning = "ret", pointcut = "sysLogAspect()")
     public void doAfterReturning(Object ret) {
+
         // 处理完请求，返回内容
      /*   R r = Convert.convert(R.class, ret);
         if (r.getCode() == 200){
