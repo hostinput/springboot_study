@@ -2,36 +2,27 @@ package com.example.springboot.system.web;
 
 
 import com.baomidou.mybatisplus.mapper.Condition;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.example.springboot.aop.OperationType;
 import com.example.springboot.aop.SystemLog;
-import com.example.springboot.constants.Code;
-import com.example.springboot.entity.BaseResult;
 import com.example.springboot.system.entity.User;
 import com.example.springboot.system.service.IUserService;
-import com.example.springboot.utils.ResultUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import sun.security.provider.MD5;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * <p>
@@ -44,6 +35,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     IUserService userServiceImpl;
 
@@ -59,6 +51,9 @@ public class UserController {
 
     @RequestMapping("/toIndex")
     public String toIndex(Model model) {
+        logger.info("测试打印Info");
+        logger.debug("测试打印debug");
+        logger.error("测试打印error");
         List<User> userList = userServiceImpl.selectList(null);
         model.addAttribute("userList", userList);
         return "index";

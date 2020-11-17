@@ -1,20 +1,7 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.aop.OperationType;
-import com.example.springboot.aop.SystemLog;
-import com.example.springboot.entity.BaseResult;
-import com.example.springboot.system.service.IUserService;
-import com.example.springboot.utils.ResultUtil;
-import com.github.pagehelper.PageInfo;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/view")
@@ -90,7 +77,7 @@ public class ViewController {
     * *//*
     @RequestMapping("/listusers")
     @ResponseBody
-    public BaseResult getAllUser(){
+    public ResultBody getAllUser(){
         PageInfo userInfo =null;//userService.getAllUsers();
        // System.out.println("users.size"+users.size());
         return  ResultUtil.ok(userInfo);

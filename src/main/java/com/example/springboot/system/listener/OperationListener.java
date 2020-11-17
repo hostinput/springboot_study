@@ -23,5 +23,6 @@ public class OperationListener {
     public void handEvent(SystemLogEvent event) {
         OperationalLog log = event.getOperationalLog();
         operationalLogServiceImpl.insert(log);
+
     }
 }

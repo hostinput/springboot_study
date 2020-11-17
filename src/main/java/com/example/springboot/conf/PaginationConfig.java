@@ -14,6 +14,6 @@ public class PaginationConfig {
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
+        return new PaginationInterceptor(); 
     }
 }

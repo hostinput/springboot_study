@@ -42,7 +42,7 @@ public class ShiroConfig {
 
     //权限管理，配置主要是Realm的管理认证
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager securityManager(@Qualifier("myShiroRealm") RealmConfig realm) {
+    public DefaultWebSecurityManager securityManager(@Qualifier("myShiroRealm") MyShiroRealm realm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);        //设置realm.
         /*
@@ -65,8 +65,8 @@ public class ShiroConfig {
 
     //将自己的验证方式加入容器
     @Bean(name = "myShiroRealm")
-    public RealmConfig myShiroRealm() {//参数：@Qualifier("hashedCredentialsMatcher")HashedCredentialsMatcher hCM
-        RealmConfig myShiroRealm = new RealmConfig();
+    public MyShiroRealm myShiroRealm() {//参数：@Qualifier("hashedCredentialsMatcher")HashedCredentialsMatcher hCM
+        MyShiroRealm myShiroRealm = new MyShiroRealm();
         //myShiroRealm.setCredentialsMatcher(hCM);
         return myShiroRealm;
     }

@@ -78,4 +78,6 @@ public class OperationalLog extends Model<OperationalLog> {
         return this.id;
     }
 
+
+
 }
