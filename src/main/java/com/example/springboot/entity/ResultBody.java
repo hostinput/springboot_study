@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.springboot.exception.BaseErrorInfoInterface;
 import com.example.springboot.exception.CommonEnum;
 
-public class ResultBody<T> {
+public class ResultBody {
 
     /**
      * 响应代码
@@ -19,7 +19,7 @@ public class ResultBody<T> {
     /**
      * 响应结果
      */
-    private T result;
+    private Object result;
 
     public ResultBody() {
     }
@@ -49,7 +49,7 @@ public class ResultBody<T> {
         return result;
     }
 
-    public void setResult(T result) {
+    public void setResult(Object result) {
         this.result = result;
     }
 

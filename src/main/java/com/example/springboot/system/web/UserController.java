@@ -52,7 +52,6 @@ public class UserController {
     @RequestMapping("/toIndex")
     public String toIndex(Model model) {
         logger.info("测试打印Info");
-        logger.debug("测试打印debug");
         logger.error("测试打印error");
         List<User> userList = userServiceImpl.selectList(null);
         model.addAttribute("userList", userList);
