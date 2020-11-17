@@ -1,4 +1,4 @@
-package com.example.springboot.system.web;
+package com.example.springboot.system.controller;
 
 
 import com.baomidou.mybatisplus.mapper.Condition;

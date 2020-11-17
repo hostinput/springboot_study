@@ -58,13 +58,16 @@ public class Generator {
         dsc.setUsername("root");
         dsc.setPassword("123456");
         mpg.setDataSource(dsc);
-
         // 包配置
         PackageConfig pc = new PackageConfig();
         //这里有个模块名的配置，可以注释掉不用。
-//        pc.setModuleName(scanner("模块名"));
-//        pc.setParent("com.zhouxiaoxi.www");
-        pc.setParent(scanner("模块地址"));
+        pc.setModuleName(scanner("模块名"));
+        pc.setParent("com.example.springboot");
+        pc.setEntity("entity");
+        pc.setMapper("mapper");
+        pc.setController("controller");
+        pc.setService("service");
+        // pc.setParent(scanner("模块地址"));
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -88,7 +91,7 @@ public class Generator {
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                 return projectPath + "/src/main/resources/mapper/"
-//                        +  + pc.getModuleName() + 如果放开上面的模块名，这里就有一个模块名了
+                        + pc.getModuleName()  //如果放开上面的模块名，这里就有一个模块名了
                         + "/" + tableInfo.getEntityName() + "Mapper.xml";
             }
         });
