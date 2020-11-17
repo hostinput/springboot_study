@@ -19,7 +19,6 @@ public class OperationListener {
      * 用户操作日志异步保存到数据库
      */
     @EventListener
-    @Transactional
     public void handEvent(SystemLogEvent event) {
         OperationalLog log = event.getOperationalLog();
         operationalLogServiceImpl.insert(log);
